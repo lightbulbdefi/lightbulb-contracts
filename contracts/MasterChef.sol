@@ -54,6 +54,8 @@ contract MasterChef is Ownable {
     uint256 public lampPerBlock;
     // Bonus muliplier for early lamp makers.
     uint256 public constant BONUS_MULTIPLIER = 1;
+    // Max Deposit Fee
+    uint256 public constant MAX_DEPOSIT_FEE = 400;
     // Deposit Fee address
     address public feeAddress;
 
@@ -91,7 +93,7 @@ contract MasterChef is Ownable {
     // Add a new lp to the pool. Can only be called by the owner.
     // XXX DO NOT add the same LP token more than once. Rewards will be messed up if you do.
     function add(uint256 _allocPoint, IBEP20 _lpToken, uint16 _depositFeeBP, bool _withUpdate) public onlyOwner {
-        require(_depositFeeBP <= 10000, "add: invalid deposit fee basis points");
+        require(_depositFeeBP <= MAX_DEPOSIT_FEE, "add: invalid deposit fee basis points");
         if (_withUpdate) {
             massUpdatePools();
         }
@@ -108,7 +110,7 @@ contract MasterChef is Ownable {
 
     // Update the given pool's lamp allocation point and deposit fee. Can only be called by the owner.
     function set(uint256 _pid, uint256 _allocPoint, uint16 _depositFeeBP, bool _withUpdate) public onlyOwner {
-        require(_depositFeeBP <= 10000, "set: invalid deposit fee basis points");
+        require(_depositFeeBP <= MAX_DEPOSIT_FEE, "set: invalid deposit fee basis points");
         if (_withUpdate) {
             massUpdatePools();
         }
